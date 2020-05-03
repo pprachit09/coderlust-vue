@@ -2,6 +2,7 @@
   <q-item 
     @click="updateTask({ id: id, updates: { completed: !task.completed }})"
     :class="!task.completed ? 'bg-deep-orange-2' : 'bg-lime-2' "
+    v-touch-hold:1000.mouse="showEditTaskModel"
     clickable
     v-ripple>
       <q-item-section side top>
@@ -12,9 +13,8 @@
 
       <q-item-section>
         <q-item-label
-          :class="{ 'text-strikethrough' : task.completed }">
-            {{ task.name }}
-        </q-item-label>
+          v-html="$options.filters.searchHighlight(task.name, search)"
+          :class="{ 'text-strikethrough' : task.completed }" />
       </q-item-section>
 
       <q-item-section side v-if="task.dueDate">
@@ -30,7 +30,7 @@
             <q-item-label 
               class="row justify-end"
               caption>
-                {{ task.dueDate }}
+                {{ task.dueDate | niceDate }}
             </q-item-label>
             <q-item-label 
               class="row justify-end"
@@ -70,7 +70,10 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
+  import { date } from 'quasar'
+  const { formatDate } = date
+
   export default {
     props: ['task', 'id'],
     data() {
@@ -90,10 +93,36 @@
         }).onOk(() => {
           this.deleteTask(id) 
         })
+      },
+      showEditTaskModel() {
+        this.showEditTask = true
       }
     },
     components: {
       'edit-task': require('../task/model/EditTask').default
+    },
+    filters: {
+      niceDate(value) {
+        return formatDate(value, 'MMM D')
+      },
+      searchHighlight(value, search) {
+        if (search) {
+          const searchRegex = new RegExp(
+            search,
+            'ig'
+          )
+          return value.replace(
+            searchRegex,
+            (match) => {
+              return '<span class="bg-yellow-6">' + match + '</span>'
+            }
+          )
+        }
+        return value
+      }
+    },
+    computed: {
+      ...mapState('tasks', ['search'])
     }
   }
 </script>
