@@ -20,42 +20,6 @@ const state = {
       completed: false,
       dueDate: '2020-05-14',
       dueTime: '14:30'            
-    },
-    'ID12': {
-      name: 'Learn Vue js',
-      completed: false,
-      dueDate: '2020-05-12',
-      dueTime: '12:30'
-    },
-    'ID22': {
-      name: 'Deploy Vue app',
-      completed: false,
-      dueDate: '2020-05-15',
-      dueTime: '18:30'
-    },
-    'ID23': {
-      name: 'Go to sleep',
-      completed: false,
-      dueDate: '2020-05-14',
-      dueTime: '14:30'            
-    },
-    'ID13': {
-      name: 'Learn Vue js',
-      completed: false,
-      dueDate: '2020-05-12',
-      dueTime: '12:30'
-    },
-    'ID14': {
-      name: 'Deploy Vue app',
-      completed: false,
-      dueDate: '2020-05-15',
-      dueTime: '18:30'
-    },
-    'ID15': {
-      name: 'Go to sleep',
-      completed: false,
-      dueDate: '2020-05-14',
-      dueTime: '14:30'            
     }
   },
   search : '',
