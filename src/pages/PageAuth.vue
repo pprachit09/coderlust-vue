@@ -19,12 +19,12 @@
       <q-tab-panels v-model="tab" animated>
         <q-tab-panel name="login">
           <div class="text-h6">Login</div>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <login-signup :tab="tab" />
         </q-tab-panel>
 
         <q-tab-panel name="signup">
           <div class="text-h6">Sign up</div>
-            <signup />
+            <login-signup :tab="tab" />
         </q-tab-panel>
 
       </q-tab-panels>
@@ -40,7 +40,7 @@
       }
     },
     components: {
-      'signup': require('components/auth/SignUp').default
+      'login-signup': require('components/auth/LoginSignUp').default
     }
   }
 </script>
