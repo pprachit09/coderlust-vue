@@ -10,13 +10,19 @@
       autofocus
       clearable
       clear-icon="close"
+      v-select-all
       :rules="[val => !!val || 'Field is required']" />
   </div>
 </template>
 
 <script>
+  import { selectAll } from 'src/directives/directive-select-all'
+
   export default {
-    props: ['name']    
+    props: ['name'],
+    directives: {
+      selectAll
+    }
   }
 </script>
 

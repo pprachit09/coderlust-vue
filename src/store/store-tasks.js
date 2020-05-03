@@ -20,9 +20,46 @@ const state = {
       completed: false,
       dueDate: '2020-05-14',
       dueTime: '14:30'            
+    },
+    'ID12': {
+      name: 'Learn Vue js',
+      completed: false,
+      dueDate: '2020-05-12',
+      dueTime: '12:30'
+    },
+    'ID22': {
+      name: 'Deploy Vue app',
+      completed: false,
+      dueDate: '2020-05-15',
+      dueTime: '18:30'
+    },
+    'ID23': {
+      name: 'Go to sleep',
+      completed: false,
+      dueDate: '2020-05-14',
+      dueTime: '14:30'            
+    },
+    'ID13': {
+      name: 'Learn Vue js',
+      completed: false,
+      dueDate: '2020-05-12',
+      dueTime: '12:30'
+    },
+    'ID14': {
+      name: 'Deploy Vue app',
+      completed: false,
+      dueDate: '2020-05-15',
+      dueTime: '18:30'
+    },
+    'ID15': {
+      name: 'Go to sleep',
+      completed: false,
+      dueDate: '2020-05-14',
+      dueTime: '14:30'            
     }
   },
-  search : ''
+  search : '',
+  sort: 'name'
 }
 
 const mutations = {
@@ -37,6 +74,9 @@ const mutations = {
   },
   setSearch(state, value) {
     state.search = value
+  },
+  setSort(state, value) {
+    state.sort = value
   }
 }
 
@@ -57,6 +97,9 @@ const actions = {
   },
   setSearch({commit}, value) {
     commit('setSearch', value)
+  },
+  setSort({commit}, value) {
+    commit('setSort', value)
   }
 }
 
@@ -83,11 +126,12 @@ const getters = {
     })
     return tasks
   },
-  searchTask: state => {
+  searchTask: (state, getters) => {
+    const taskSorted = getters.taskSorted
     const tasks = {}
     if (state.search) {
-      Object.keys(state.tasks).forEach(key => {
-        const task = state.tasks[key]
+      Object.keys(taskSorted).forEach(key => {
+        const task = taskSorted[key]
         const taskName = task.name.toLowerCase()
         const search = state.search.toLowerCase()
         if (taskName.includes(search)) {
@@ -96,7 +140,25 @@ const getters = {
       })
       return tasks
     }
-    return state.tasks
+    return taskSorted
+  },
+  taskSorted: state => {
+    const tasks = {}
+    const keys = Object.keys(state.tasks)
+    keys.sort((a,b) => {
+      const taskAProp = state.tasks[a][state.sort].toLowerCase(),
+            taskBProp = state.tasks[b][state.sort].toLowerCase()
+      
+      if(taskAProp > taskBProp) return 1
+      else if(taskAProp < taskBProp) return -1
+      else return 0
+    })
+
+    keys.forEach(key => {
+      tasks[key] = state.tasks[key]
+    })
+
+    return tasks
   }
 }
 
