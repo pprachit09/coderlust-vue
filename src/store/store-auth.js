@@ -44,12 +44,15 @@ const actions = {
 		    commit('setLoggedIn', true)
 		    LocalStorage.set('loggedIn', true)
 		    this.$router.push('/')
-		    dispatch('tasks/fbReadData', null, { root: true })
+			dispatch('tasks/fbReadData', null, { root: true })
+			dispatch('dailyTasks/fbReadData', null, { root: true })
 		  }
 		  else {
 		  	commit('tasks/clearTasks', null, { root: true })
 		  	commit('tasks/setTasksDownloaded', false, { root: true })
-		  	commit('setLoggedIn', false)
+			commit('dailyTasks/cleardailyTasks', null, { root: true })
+		  	commit('dailyTasks/setdailyTasksDownloaded', false, { root: true })
+			commit('setLoggedIn', false)
 		  	LocalStorage.set('loggedIn', false)
 		  	this.$router.replace('/auth')
 		  }

@@ -1,20 +1,14 @@
 <template>
   <q-item 
     @click="updateTask({ id: id, updates: { completed: !task.completed }})"
-    :class="!task.completed ? 'bg-orange-1' : 'bg-green-1' "
+    class="bg-indigo-1"
     v-touch-hold:1000.mouse="showEditTaskModel"
     clickable
     v-ripple>
-      <q-item-section side top>
-        <q-checkbox 
-          :value="task.completed"
-          class="no-pointer-events" />
-      </q-item-section>
-
       <q-item-section>
         <q-item-label
           v-html="$options.filters.searchHighlight(task.name, search)"
-          :class="{ 'text-strikethrough' : task.completed }" />
+        />
       </q-item-section>
 
       <q-item-section side v-if="task.dueDate">
@@ -24,19 +18,6 @@
               name="event"
               size="20px"
               class="q-mr-xs" />
-          </div>
-          
-          <div class="column">
-            <q-item-label 
-              class="row justify-end"
-              caption>
-                {{ task.dueDate | niceDate }}
-            </q-item-label>
-            <q-item-label 
-              class="row justify-end"
-              caption>
-                <small>{{ taskDueTime }}</small>
-            </q-item-label>
           </div>
         </div>
       </q-item-section>
@@ -82,7 +63,7 @@
       }
     },
     methods: {
-      ...mapActions('tasks', ['updateTask', 'deleteTask']),
+      ...mapActions('dailyTasks', ['updateTask', 'deleteTask']),
       promptToDelete(id) {
           this.$q.dialog({
           dark: true,
@@ -99,7 +80,7 @@
       }
     },
     components: {
-      'edit-task': require('../task/model/EditTask').default
+      'edit-task': require('../task/model/EditDailyTask').default
     },
     filters: {
       niceDate(value) {

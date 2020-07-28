@@ -4,43 +4,25 @@ import { firebaseDb, firebaseAuth } from 'boot/firebase'
 import { showErrorMessage } from 'src/functions/function-show-error-message'
 
 const state = {
-	tasks: {
-		// 'ID1': {
-		// 	name: 'Go to shop',
-		// 	completed: false,
-		// 	dueDate: '2019/05/12',
-		// 	dueTime: '18:30'
-		// },
-		// 'ID2': {
-		// 	name: 'Get bananas',
-		// 	completed: false,
-		// 	dueDate: '2019/05/13',
-		// 	dueTime: '14:00'
-		// },
-		// 'ID3': {
-		// 	name: 'Get apples',
-		// 	completed: false,
-		// 	dueDate: '2019/05/14',
-		// 	dueTime: '16:00'
-		// }
+	dailyTasks: {
 	},
 	search: '',
 	sort: 'name',
-	tasksDownloaded: false
+	dailyTasksDownloaded: false
 }
 
 const mutations = {
 	updateTask(state, payload) {
-		Object.assign(state.tasks[payload.id], payload.updates)
+		Object.assign(state.dailyTasks[payload.id], payload.updates)
 	},
 	deleteTask(state, id) {
-		Vue.delete(state.tasks, id)
+		Vue.delete(state.dailyTasks, id)
 	},
 	addTask(state, payload) {
-		Vue.set(state.tasks, payload.id, payload.task)
+		Vue.set(state.dailyTasks, payload.id, payload.task)
 	},
-	clearTasks(state) {
-		state.tasks = {}
+	cleardailyTasks(state) {
+		state.dailyTasks = {}
 	},
 	setSearch(state, value) {
 		state.search = value
@@ -48,8 +30,8 @@ const mutations = {
 	setSort(state, value) {
 		state.sort = value
 	},
-	setTasksDownloaded(state, value) {
-		state.tasksDownloaded = value
+	setdailyTasksDownloaded(state, value) {
+		state.dailyTasksDownloaded = value
 	}	
 }
 
@@ -77,18 +59,18 @@ const actions = {
 
 	fbReadData({ commit }) {
 		let userId = firebaseAuth.currentUser.uid
-		let userTasks = firebaseDb.ref('tasks/' + userId)
+		let userdailyTasks = firebaseDb.ref('dailyTasks/' + userId)
 
 		// initial check for data
-		userTasks.once('value', snapshot => {
-			commit('setTasksDownloaded', true)
+		userdailyTasks.once('value', snapshot => {
+			commit('setdailyTasksDownloaded', true)
 		}, error => {
 			showErrorMessage(error.message)
 			this.$router.replace('/auth')
 		})
 
 		// child added
-		userTasks.on('child_added', snapshot => {
+		userdailyTasks.on('child_added', snapshot => {
 			let task = snapshot.val()
 			let payload = {
 				id: snapshot.key,
@@ -98,7 +80,7 @@ const actions = {
 		})
 
 		// child changed
-		userTasks.on('child_changed', snapshot => {
+		userdailyTasks.on('child_changed', snapshot => {
 			let task = snapshot.val()
 			let payload = {
 				id: snapshot.key,
@@ -108,14 +90,14 @@ const actions = {
 		})
 
 		// child removed
-		userTasks.on('child_removed', snapshot => {
+		userdailyTasks.on('child_removed', snapshot => {
 			let taskId = snapshot.key
 			commit('deleteTask', taskId)
 		})
 	},
 	fbAddTask({}, payload) {
 		let userId = firebaseAuth.currentUser.uid
-		let taskRef = firebaseDb.ref('tasks/' + userId + '/' + payload.id)
+		let taskRef = firebaseDb.ref('dailyTasks/' + userId + '/' + payload.id)
 		taskRef.set(payload.task, error => {
 			if (error) {
 				showErrorMessage(error.message)
@@ -127,7 +109,7 @@ const actions = {
 	},
 	fbUpdateTask({}, payload) {
 		let userId = firebaseAuth.currentUser.uid
-		let taskRef = firebaseDb.ref('tasks/' + userId + '/' + payload.id)
+		let taskRef = firebaseDb.ref('dailyTasks/' + userId + '/' + payload.id)
 		taskRef.update(payload.updates, error => {
 			if (error) {
 				showErrorMessage(error.message)
@@ -142,7 +124,7 @@ const actions = {
 	},
 	fbDeleteTask({}, taskId) {
 		let userId = firebaseAuth.currentUser.uid
-		let taskRef = firebaseDb.ref('tasks/' + userId + '/' + taskId)
+		let taskRef = firebaseDb.ref('dailyTasks/' + userId + '/' + taskId)
 		taskRef.remove(error => {
 			if (error) {
 				showErrorMessage(error.message)
@@ -155,13 +137,13 @@ const actions = {
 }
 
 const getters = {
-	tasksSorted: (state) => {
-		let tasksSorted = {},
-				keysOrdered = Object.keys(state.tasks)
+	dailyTasksSorted: (state) => {
+		let dailyTasksSorted = {},
+				keysOrdered = Object.keys(state.dailyTasks)
 
 		keysOrdered.sort((a,b) => {
-			let taskAProp = state.tasks[a][state.sort].toLowerCase(),
-					taskBProp = state.tasks[b][state.sort].toLowerCase()
+			let taskAProp = state.dailyTasks[a][state.sort].toLowerCase(),
+					taskBProp = state.dailyTasks[b][state.sort].toLowerCase()
 
 			if (taskAProp > taskBProp) return 1
 			else if (taskAProp < taskBProp) return -1
@@ -169,48 +151,35 @@ const getters = {
 		})
 
 		keysOrdered.forEach((key) => {
-			tasksSorted[key] = state.tasks[key]
+			dailyTasksSorted[key] = state.dailyTasks[key]
 		})
 
-		return tasksSorted
+		return dailyTasksSorted
 	},
-	tasksFiltered: (state, getters) => {
-		let tasksSorted = getters.tasksSorted,
-				tasksFiltered = {}
+	dailyTasksFiltered: (state, getters) => {
+		let dailyTasksSorted = getters.dailyTasksSorted,
+				dailyTasksFiltered = {}
 		if (state.search) {
-			Object.keys(tasksSorted).forEach(function(key) {
-				let task = tasksSorted[key],
+			Object.keys(dailyTasksSorted).forEach(function(key) {
+				let task = dailyTasksSorted[key],
 						taskNameLowerCase = task.name.toLowerCase(),
 						searchLowerCase = state.search.toLowerCase()
 				if (taskNameLowerCase.includes(searchLowerCase)) {
-					tasksFiltered[key] = task
+					dailyTasksFiltered[key] = task
 				}
 			})
-			return tasksFiltered		
+			return dailyTasksFiltered		
 		}
-		return tasksSorted
+		return dailyTasksSorted
 	},
-	tasksTodo: (state, getters) => {
-		let tasksFiltered = getters.tasksFiltered
-		let tasks = {}
-		Object.keys(tasksFiltered).forEach(function(key) {
-			let task = tasksFiltered[key]
-			if (!task.completed) {
-				tasks[key] = task
-			}
+	dailyTasksTodo: (state, getters) => {
+		let dailyTasksFiltered = getters.dailyTasksFiltered
+		let dailyTasks = {}
+		Object.keys(dailyTasksFiltered).forEach(function(key) {
+			let task = dailyTasksFiltered[key]
+			dailyTasks[key] = task
 		})
-		return tasks
-	},
-	tasksCompleted: (state, getters) => {
-		let tasksFiltered = getters.tasksFiltered
-		let tasks = {}
-		Object.keys(tasksFiltered).forEach(function(key) {
-			let task = tasksFiltered[key]
-			if (task.completed) {
-				tasks[key] = task
-			}
-		})
-		return tasks
+		return dailyTasks
 	}
 }
 

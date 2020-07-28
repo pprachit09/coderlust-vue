@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import tasks from './store-tasks'
 import settings from './store-settings'
 import auth from './store-auth'
+import dailyTasks from './store-daily-tasks'
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default function (/* { ssrContext } */) {
       // example
       auth,
       tasks,
-      settings
+      settings,
+      dailyTasks
     },
 
     // enable strict mode (adds overhead!)
