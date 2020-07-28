@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "10" 
+branches:
+  only:
+    - master
+
+install:
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then npm install -g @quasar/cli && npm install && quasar build; fi'
+
+after_success:
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then firebase deploy --token $FIREBASE_TOKEN; fi'
