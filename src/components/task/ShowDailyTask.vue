@@ -2,23 +2,23 @@
   <transition
     appear
     enter-active-class="animated zoomIn"
-    leave-active-class="animated zoomOut absolute-top"
+    leave-active-class="animated zoomOut"
   >
-    <div>
+    <div :class="{'q-mt-lg' : !settings.showTaskInOneList}">
       <list-header
         v-if="!settings.showTaskInOneList"
-        bgColor="bg-orange-5"
-      >To Do</list-header>    
+        bgColor="bg-indigo-3"
+      >Daily Task </list-header>
       <q-list
         separator 
         bordered>
-          <task
-            v-for="(task, key) in tasksTodo"
+          <daily-task
+            v-for="(task, key) in dailyTasksTodo"
             :key="key"
             :task=task
             :id="key"
           >
-          </task>
+          </daily-task>
       </q-list>
     </div>
   </transition>
@@ -26,11 +26,11 @@
 
 <script>
   import { mapGetters } from 'vuex'
-
+  
   export default {
-    props: ['tasksTodo'],
+    props: ['dailyTasksTodo'],
     components: {
-      'task': require('./Task').default,
+      'daily-task': require('./DailyTask').default,
       'list-header': require('components/shared/ListHeader').default
     },
     computed: {

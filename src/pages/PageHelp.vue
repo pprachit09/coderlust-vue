@@ -7,7 +7,7 @@
       icon="chevron_left"
       label="Back" />
     <h5>How to Use</h5>
-    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corrupti rem atque ab ut quia maxime nihil, placeat recusandae earum dolor excepturi consequatur. Asperiores sit quaerat voluptas exercitationem aliquam odit sint!</p>
+    <p>Click on the big round circle and add your Todo. You can edit/delete your todos. Click on the todo to mark it as completed</p>
   </q-page>
 </template>
 

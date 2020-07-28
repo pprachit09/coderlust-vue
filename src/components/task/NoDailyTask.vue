@@ -4,17 +4,17 @@
     enter-active-class="animated zoomIn"
     leave-active-class="animated zoomOut absolute-top"
   >
-    <q-banner dense class="bg-brown-1">
+    <q-banner dense class="bg-deep-purple-1">
       <template v-slot:avatar>
         <q-icon name="check" color="primary" />
       </template>
-      No task To do Today
+      You have not added any daily task
       <template v-slot:action>
         <q-btn
-          @click="$root.$emit('showAddTask')"
+          @click="$root.$emit('showAddDailyTask')"
           flat
           color="primary"
-          label="Add Task" />
+          label="Add Daily Task" />
       </template>
     </q-banner>
   </transition>
