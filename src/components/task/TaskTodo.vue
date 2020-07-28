@@ -7,7 +7,7 @@
     <div>
       <list-header
         v-if="!settings.showTaskInOneList"
-        bgColor="bg-orange"
+        bgColor="bg-deep-orange-5"
       >To Do</list-header>    
       <q-list
         separator 

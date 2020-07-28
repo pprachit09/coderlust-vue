@@ -41,14 +41,9 @@
       :width="250"
       show-if-above
       bordered
-      content-class="bg-primary"
+      content-class="bg-grey-9"
     >
       <q-list dark>
-        <q-item-label
-          header
-        >
-          Navigation
-        </q-item-label>
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"

@@ -2,7 +2,7 @@
   "name": "todo-dash",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "productName": "Coderlust To-do",
   "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "pprachit09 <pprachit09@gmail.com>",

@@ -28,7 +28,7 @@
           <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
             <q-btn
               round
-              color="primary"
+              color="deep-purple-6"
               size="24px"
               icon="add"
               class="all-pointer-events"

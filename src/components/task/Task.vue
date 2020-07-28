@@ -1,7 +1,7 @@
 <template>
   <q-item 
     @click="updateTask({ id: id, updates: { completed: !task.completed }})"
-    :class="!task.completed ? 'bg-deep-orange-2' : 'bg-lime-2' "
+    :class="!task.completed ? 'bg-orange-2' : 'bg-green-1' "
     v-touch-hold:1000.mouse="showEditTaskModel"
     clickable
     v-ripple>
@@ -48,7 +48,7 @@
             flat
             round
             dense
-            color="primary" 
+            color="blue-grey" 
             icon="edit" />
           <q-btn
             @click.stop="promptToDelete(id)"

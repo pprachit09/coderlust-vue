@@ -4,7 +4,7 @@
     enter-active-class="animated zoomIn"
     leave-active-class="animated zoomOut absolute-top"
   >
-    <q-banner dense class="bg-grey-3">
+    <q-banner dense class="bg-brown-1">
       <template v-slot:avatar>
         <q-icon name="check" color="primary" />
       </template>
