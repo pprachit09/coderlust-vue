@@ -1,38 +1,40 @@
 <template>
     <q-page>
       <div class="q-pa-md absolute full-width full-height column">
-        <div class="row q-mb-lg">
-          <search />
-          <sort />
-        </div>
 
-        <p
-          v-if="search && !Object.keys(tasksTodo).length && !Object.keys(tasksCompleted).length"
-        >No Search Results</p>
+        <template v-if="tasksDownloaded">
+          <div class="row q-mb-lg">
+            <search />
+            <sort />
+          </div>
 
-        <q-scroll-area class="q-scroll-area-tasks">
-          <no-task
-            v-if="!Object.keys(tasksTodo).length && !search && !settings.showTaskInOneList">
-          </no-task>
+          <p
+            v-if="search && !Object.keys(tasksTodo).length && !Object.keys(tasksCompleted).length"
+          >No Search Results</p>
 
-          <no-daily-task 
-            v-if="!Object.keys(dailyTasksTodo).length" />
+          <q-scroll-area class="q-scroll-area-tasks">
+            <no-task
+              v-if="!Object.keys(tasksTodo).length && !search && !settings.showTaskInOneList">
+            </no-task>
 
-          <task-todo
-            v-if="Object.keys(tasksTodo).length"
-            :tasksTodo="tasksTodo" />
-          
-          <daily-task 
-            v-if="Object.keys(dailyTasksTodo).length"
-            :dailyTasksTodo="dailyTasksTodo"
-            class="q-mb-xl" />
+            <no-daily-task 
+              v-if="!Object.keys(dailyTasksTodo).length" />
 
-          <task-completed
-            v-if="Object.keys(tasksCompleted).length"
-            :tasksCompleted="tasksCompleted" 
-            class="q-mb-xl" />
+            <task-todo
+              v-if="Object.keys(tasksTodo).length"
+              :tasksTodo="tasksTodo" />
+            
+            <daily-task 
+              v-if="Object.keys(dailyTasksTodo).length"
+              :dailyTasksTodo="dailyTasksTodo"
+              class="q-mb-xl" />
 
-        </q-scroll-area>
+            <task-completed
+              v-if="Object.keys(tasksCompleted).length"
+              :tasksCompleted="tasksCompleted" 
+              class="q-mb-xl" />
+
+          </q-scroll-area>
           <div class="q-pa-md q-gutter-sm absolute-bottom text-center">
             <q-btn
               padding="xs lg"
@@ -54,7 +56,17 @@
               @click="showAddDailyTask = true"
             />
           </div>
-        </div>
+        </template>
+
+        <template v-else>
+          <span class="absolute-center">
+            <q-spinner-grid 
+              color="teal"
+              size="5.5em"
+            />
+          </span>
+        </template>
+      </div>
 
         <q-dialog v-model="showAddTask">
           <add-task @close="showAddTask = false" />
@@ -80,7 +92,7 @@
     computed: {
         ...mapGetters('tasks', ['tasksTodo', 'tasksCompleted']),
         ...mapGetters('settings', ['settings']),
-        ...mapState('tasks', ['search']),
+        ...mapState('tasks', ['search', 'tasksDownloaded']),
         ...mapGetters('dailyTasks', ['dailyTasksTodo'])
     },
     components: {
