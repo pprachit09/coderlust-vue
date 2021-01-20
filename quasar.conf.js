@@ -117,7 +117,7 @@ cfg.module.rules.push({
       workboxOptions: {}, // only for GenerateSW
       manifest: {
         name: 'Coderlust To-do',
-        short_name: 'Coderlust To-do',
+        short_name: 'CTD',
         description: 'To manage daily to-dos',
         display: 'standalone',
         orientation: 'portrait',

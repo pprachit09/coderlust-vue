@@ -25,7 +25,44 @@
     </q-header>
 
     <q-footer>
-      <q-tabs>
+      <div class="banner-container bg-secondary">
+        <div class="constrain">
+          <q-banner
+            dense
+            inline-actions
+            class="bg-secondary text-white">
+            <template v-slot:avatar>
+              <q-avatar
+                color="white"
+                text-color="white"
+                icon="icon"
+                font-size="22px" />
+            </template>
+            <b>Install App?</b>
+
+            <template v-slot:action>
+              <q-btn
+                flat
+                class="q-px-sm"
+                label="Yes"
+                dense />
+              <q-btn
+                flat
+                class="q-px-sm"
+                label="Later"
+                dense />
+              <q-btn
+                flat
+                class="q-px-sm"
+                label="Never"
+                dense />
+            </template>
+          </q-banner>
+        </div>
+      </div>
+      <q-tabs
+        class="lt-sm"
+      >
         <q-route-tab
           v-for="link in essentialLinks"
           :key="link.title"
@@ -99,11 +136,6 @@ export default {
 </script>
 
 <style lang="scss">
-  @media screen and (min-width: 768px) {
-    .q-footer {
-      display: none;
-    }    
-  }
   .q-drawer {
     .q-router-link--exact-active {
       color: white !important;
